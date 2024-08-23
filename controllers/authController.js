@@ -201,10 +201,13 @@ exports.blockUser = catchAsync(async (req, res, next) => {
     { isBlocked: true },
     { new: true }
   );
+  if (!user) {
+    return next(new AppError("There is no user with this ID ", 404));
+  }
   res.status(201).json({
     status: "success",
     data: {
-      message: user.username + " has been blocked",
+      message: `${user.username} has been blocked`,
     },
   });
 });
@@ -215,10 +218,13 @@ exports.unBlockUser = catchAsync(async (req, res, next) => {
     { isBlocked: false },
     { new: true }
   );
+  if (!user) {
+    return next(new AppError("There is no user with this ID ", 404));
+  }
   res.status(201).json({
     status: "success",
     data: {
-      message: user.username + " has been unblocked",
+      message: `${user.username} has been unblocked`,
     },
   });
 });
